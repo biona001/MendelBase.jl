@@ -1,6 +1,9 @@
+module PkgTest
+
 using MendelBase
 using Base.Test
 
 # write your own tests here
-@test 1 == 1
 
+include("genetic_utilities_test.jl")
+end # PkgTest module

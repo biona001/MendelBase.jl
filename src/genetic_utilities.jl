@@ -13,6 +13,12 @@ export hardy_weinberg_test, xlinked_hardy_weinberg_test
 Calculate recombination fractions based on Haldane's or Kosambi's formula.
 """
 function map_function(d::Float64, choice::AbstractString)
+    
+  if d < 0.0
+    throw(BoundsError(
+      "Distance must be positive.\n \n"
+      ))
+  end
 
   if choice == "Haldane"
     theta = 0.5 * (1.0 - exp(-2d))
