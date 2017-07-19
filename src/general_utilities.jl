@@ -31,9 +31,10 @@ function empties(n::Int)
 end # function empties
 
 """
-Identifies a repeated string in an array of strings.
+Identifies a repeated string in an array of strings. Used in read_data.jl to 
+count the number of repeated pedigree/person names. 
 """
-function repeated_string(name::Vector{AbstractString})
+function repeated_string{S<:AbstractString}(name::Vector{S})
 
   sorted = sort(name)
   for i = 2:length(name)
@@ -63,6 +64,10 @@ end # function select_set_element
 """
 Returns a random category (numbered 1, 2, and so forth)
 according to a vector of category frequencies.
+...
+...
+what does this function do? I don't get it. No other function in mendelbase
+depends on it either?
 """
 function random_category(frequency::Vector{Float64})
 

@@ -14,7 +14,7 @@ Calculate recombination fractions based on Haldane's or Kosambi's formula.
 """
 function map_function(d::Float64, choice::AbstractString)
     
-  if d < 0.0
+  if d < 0.0 
     throw(DomainError())
   end
 
@@ -34,7 +34,7 @@ Calculates genetic map distances based on Haldane's or Kosambi's formula.
 """
 function inverse_map_function(theta::Float64, choice::AbstractString)
 
-  if theta < 0.0 || theta > 1.0
+  if theta < 0.0 || theta > 1.0 
     throw(DomainError())
   end
 
