@@ -85,6 +85,13 @@ end # function random_category
 """
 Normalizes the vector x to have mean 0.0 and variance 1.0.
 Missing values are ignored.
+...
+...
+Need to change function name.
+Also variance computation doesn't work? 
+> x = randn(10)
+> normalize!(x)
+> var(x) = 1.11111.. (where var(x) is supposed to be sample variance)
 """
 function normalize!(x::Vector{Float64})
 
@@ -109,8 +116,12 @@ end # function normalize!
 """
 Computes a sample mean and standard deviation.
 Missing values are ignored.
+...
+...
+not sure if the sample variance calculation actually works
 """
 function sample_mean_std(x::Vector{Float64})
+  #return (mean(x), sqrt(var(x))) 
 
   (p,avg,ss) = zeros(3)
   for i = 1:length(x)
@@ -130,6 +141,22 @@ function sample_mean_std(x::Vector{Float64})
 end # function sample_mean_std
 
 """
+A helper function that, given a length n vector with p NaN values,
+return a n-p vector with all the NaN values removed  
+"""
+function remove_nan(x::Vector{Float64})
+  y = copy(x)
+  (p, n) = (0, length(x))
+  for i = 1:n
+    if !isnan(x[i])
+      p = p + 1
+      y[p] = x[i]
+    end
+  end
+  return (p, y)
+end
+
+"""
 Computes sample statistics for the data vector x.
 Missing values equal NaN. The output consists of
 the number of values present, the number of values missing,
@@ -147,6 +174,9 @@ function sample_stats(x::Vector{Float64})
       y[p] = x[i]
     end
   end
+  # n = length(x)
+  # (p, y) = remove_nan(x)
+
   return p, n - p, minimum(y[1:p]), quantile(y[1:p], 0.25), median(y[1:p]),
     quantile(y[1:p], 0.75), maximum(y[1:p]), mean(y[1:p]), std(y[1:p]),
     skewness(y[1:p]), kurtosis(y[1:p])

@@ -58,4 +58,6 @@ end
 @testset "hardy_weinberg_test" begin
     x = fill(NaN, n)
     @test hardy_weinberg_test(x) == 1.0
+    y = rand(n)
+    @test typeof(hardy_weinberg_test(y)) == Float64
 end
