@@ -52,7 +52,6 @@ end
         @test h ≈ -0.5 * log(1.0 - 2.0 * x)
         @test k ≈ 0.25 * log((1.0 + 2.0 * x) / (1.0 - 2.0 * x))
     end
-
 end
 
 @testset "hardy_weinberg_test" begin
@@ -60,4 +59,16 @@ end
     @test hardy_weinberg_test(x) == 1.0
     y = rand(n)
     @test typeof(hardy_weinberg_test(y)) == Float64
+
+    # flower example http://www.radford.edu/rsheehy/Gen_flash/Tutorials/Chi-Square_tutorial/x2-tut.htm
+    for i in 1:200 x[i] = 0.0 end
+    for i in 201:600 x[i] = 1.0 end
+    for i in 601:1000 x[i] = 2.0 end
+    result = hardy_weinberg_test(x)
+    ans = ccdf(Chisq(1), 27.77777777)
+    @test round(result * 10e5, 6) == round(ans * 10e5, 6) #julia still lacks a significant digit rounding funciton... lol
+end
+
+@testset "xlinked_hardy_weinberg_test" begin
+    # nothing yet.
 end
