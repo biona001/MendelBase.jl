@@ -62,9 +62,9 @@ end
     process_keywords!(keyword, control_file, [])
 
     # test modify keywords
-    @test keyword["locus_file"] == "example_locus.txt"
-    @test keyword["pedigree_file"] == "example_pedigree.txt"
-    @test keyword["output_file"] == "example_output.txt"
+    @test keyword["locus_file"] == "gamete competition LocusFrame.txt"
+    @test keyword["pedigree_file"] == "gamete competition PedigreeFrame.txt"
+    @test keyword["output_file"] == "gamete competition Output.txt"
     @test keyword["trait"] == "ACE"
     @test keyword["affected_designator"] == "1"
     @test keyword["standard_errors"] == true 
@@ -83,14 +83,12 @@ end
     control_file = "control.txt" #sample control file from MendelBase's documentation
     @test_throws(ArgumentError, process_keywords!(dict, "", [])) #empty set & args error 
 
-    # test if errors are being thrown in read_args! 
     bad_arg = [("我們在懷念的演唱會", "禮貌的吻別～～～～～")] #non ascii error
     @test_throws(ArgumentError, process_keywords!(dict, "control_file", bad_arg))
     bad_arg2 = [("gg rekt ezpz", "ff15 reports for all")] # !haskey error
     @test_throws(ArgumentError, process_keywords!(dict, "control_file", bad_arg2))
-
-    # test if errors are being thrown in open_control_file!
-    keyword = set_keyword_defaults!(Dict{AbstractString, Any}()) # no control file yet
+    bad_arg3 = [("female", Set{Any}(["male", "m", 'm', "1", '1', 1]))] #changing un-modifiable keywords
+    @test_throws(ArgumentError, process_keywords!(dict, "control_file", bad_arg3))
 end
 
 

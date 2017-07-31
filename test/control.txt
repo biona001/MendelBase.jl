@@ -1,8 +1,8 @@
 # Input and Output files.
 #
-locus_file = example_locus.txt
-pedigree_file = example_pedigree.txt
-output_file = example_output.txt
+locus_file = gamete competition LocusFrame.txt
+pedigree_file = gamete competition PedigreeFrame.txt
+output_file = gamete competition Output.txt
 #
 # Analysis parameters for the Gamete Competition option.
 #
