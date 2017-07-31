@@ -58,14 +58,14 @@ end
 
     x = rand(n)
     MendelBase.normalize!(x)
-    @test mean(x) ≈ 0.0
+    @test round(mean(x), 10) == 0.0 # need to round because julia apparently thinks 1e-16 is not approximately 0
     @test var(x) * 999.0 / 1000.0 ≈ 1.0 
 
     x = rand(n)
     x[1:120] = NaN
     x[801:1000] = NaN # insert some NaN
     MendelBase.normalize!(x)
-    @test mean(x[121:800]) ≈ 0.0
+    @test round(mean(x[121:800]), 10) == 0.0
     @test var(x[121:800]) * 679 / 680 ≈ 1.0 
 end
 
@@ -73,7 +73,7 @@ end
     x = [1.0, 2.0, 3.0]
     result = sample_mean_std(x)
     @test result[1] ≈ 2.0
-    @test result[2] ≈ sqrt(var(x) * 999.0 / 1000.0)
+    @test result[2] ≈ sqrt(var(x) * 2.0 / 3.0)
 
     x = randn(n)
     result = sample_mean_std(x)
