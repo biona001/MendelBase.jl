@@ -50,19 +50,43 @@ end
     @test typeof(select_set_element(secondset, 20)) == Void
 end
 
-# @testset "normalize!" begin
-#     # doesn't seem to work 
-#     x = randn(n)
-#     @test mean(normalize!(x)) ≈ 0.0
-# end
+@testset "normalize!" begin
+    x = [1.0, 2.0, 3.0] #note the importance of comma
+    MendelBase.normalize!(x) # must have MendelBase.normalize! because Base package also have a normalize! function
+    @test mean(x) ≈ 0.0
+    @test var(x) * 2.0 / 3.0 ≈ 1.0 # var(x) returns sample variance, we compute population variance
 
-# @testset "sample_mean_std" begin
-#     # std test seems to fail?
-#     x = randn(n)
-#     result = sample_mean_std(x)
-#     @test result[1] ≈ mean(x)
-#     @test result[2] ≈ sqrt(var(x)) #var(x) calculates sample variance
-# end
+    x = rand(n)
+    MendelBase.normalize!(x)
+    @test mean(x) ≈ 0.0
+    @test var(x) * 999.0 / 1000.0 ≈ 1.0 
+
+    x = rand(n)
+    x[1:120] = NaN
+    x[801:1000] = NaN # insert some NaN
+    MendelBase.normalize!(x)
+    @test mean(x[121:800]) ≈ 0.0
+    @test var(x[121:800]) * 679 / 680 ≈ 1.0 
+end
+
+@testset "sample_mean_std" begin
+    x = [1.0, 2.0, 3.0]
+    result = sample_mean_std(x)
+    @test result[1] ≈ 2.0
+    @test result[2] ≈ sqrt(var(x) * 999.0 / 1000.0)
+
+    x = randn(n)
+    result = sample_mean_std(x)
+    @test result[1] ≈ mean(x)
+    @test result[2] ≈ sqrt(var(x) * 999.0 / 1000.0) #var(x) calculates sample variance, we need population variance
+
+    x = rand(n)
+    x[1:120] = NaN
+    x[801:1000] = NaN # insert some NaN
+    result = sample_mean_std(x)
+    @test result[1] ≈ mean(x[121:800])
+    @test result[2] ≈ sqrt(var(x[121:800]) * 679 / 680)
+end
 
 @testset "sample_stats" begin
     v = [1.0, 2.0, NaN, 4.0, NaN, -6.0, NaN]
@@ -118,7 +142,7 @@ end
 
 @testset "regress" begin
     X = rand(n, p)
-    @test_throws(AssertionError, regress(X, rand(n - 1), "logistic"))
+    @test_throws(AssertionError, regress(X, rand(n - 1), "logistic")) # matrix dimension mismatch
     y = rand(n)
     @test_throws(ArgumentError, regress(X, y, "ahuehuehue"))
 
@@ -156,4 +180,8 @@ end
     @test round(estimate[1], 4) == 0.3396
     @test round(estimate[2], 4) == 0.2565
     @test round(loglikelihood, 4) == 472.0625
+end
+
+@testset "glm_score_test" begin
+    # find some examples online... 
 end

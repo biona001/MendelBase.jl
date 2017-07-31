@@ -85,13 +85,6 @@ end # function random_category
 """
 Normalizes the vector x to have mean 0.0 and variance 1.0.
 Missing values are ignored.
-...
-...
-Need to change function name.
-Also variance computation doesn't work? 
-> x = randn(10)
-> normalize!(x)
-> var(x) = 1.11111.. (where var(x) is supposed to be sample variance)
 """
 function normalize!(x::Vector{Float64})
 
@@ -116,9 +109,6 @@ end # function normalize!
 """
 Computes a sample mean and standard deviation.
 Missing values are ignored.
-...
-...
-not sure if the sample variance calculation actually works
 """
 function sample_mean_std(x::Vector{Float64})
   #return (mean(x), sqrt(var(x))) 
