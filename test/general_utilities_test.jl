@@ -113,20 +113,6 @@ end
     append!(y, x)
     append!(x, x) # vector y is vector x with an extra NaN in the middle.
     @test sample_stats(y) == sample_stats(x)
-
-
-
-    # x = randn(n) #random vector
-    # @test typeof(sample_stats(x)) == Tuple{Int64,Int64,Float64,
-    # Float64,Float64,Float64,Float64,Float64,Float64,Float64,Float64}
-    # y = [] # vector of NaN
-    # for i in 1:500 push!(y, NaN) end
-    # append!(y, x)
-    # z = sample(y, 1500, replace = false) # z is x with 500 extra NaN's in the middle
-    # z = convert(Array{Float64,1}, z)
-    # result1 = sample_stats(z)
-    # result2 = sample_stats(x)
-    # @test result1[3:11] == result2[3:11] 
 end
 
 @testset "simes false discovery rate" begin

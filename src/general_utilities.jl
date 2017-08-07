@@ -478,3 +478,60 @@ end # function glm_score_test
 # (estimate, loglikelihood) = regress(X, y, "Poisson") # Aids problem
 # println(" ")
 # println(estimate," ",loglikelihood) 
+# using GeneralUtilities
+# n = 10
+# a = blanks(n)
+# println(a,"  ",typeof(a))
+# b = empties(n)
+# println(b,"  ",typeof(b))
+# c = repeated_string(["av", "bc", "qrb", "bc"])
+# println(c)
+# integerset = IntSet([7, 5, 4, 10])
+# d = select_set_element(integerset, 3)
+# println(integerset,"  ",d)
+# frequency = rand(n)
+# frequency = frequency / sum(frequency)
+# @time for i = 1:1000
+#   s = random_category(frequency)
+#   if s < 1 || s > n
+#     println("category error")
+#   end
+# end
+# n = 100
+# x = randn(n)
+# x[1] = NaN
+# normalize!(x)
+# println(sample_mean_std(x))
+# s = sample_stats(x)
+# print_sample_stats(s)
+# pvalue = 0.1*rand(n)
+# fdr = collect(0.1:0.1:0.5)
+# tests = 1000
+# (number_passing, threshold) = simes_fdr(pvalue, fdr, tests)
+# X = [68., 49, 60, 68, 97, 82, 59, 50, 73, 39, 71, 95, 61, 72, 87, 
+#   40, 66, 58, 58, 77]
+# y = [75., 63, 57, 88, 88, 79, 82, 73, 90, 62, 70, 96, 76, 75, 85,
+#   40, 74, 70, 75, 72]
+# X = [ones(size(X,1)) X]
+# (estimate, loglikelihood) = regress(X, y, "linear") # Jennrich section 1.4
+# println(estimate)
+# println(" ")
+# X = [0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 1.75, 2.00, 2.25, 2.50, 2.75,
+#   3.00, 3.25, 3.50, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50]
+# y = [0., 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1]
+# X = [ones(size(X,1)) X]
+# (estimate, loglikelihood) = regress(X, y, "logistic") # Wikipedia problem
+# println(estimate)
+# # println(" ")
+# X = [1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+# X = reshape(X, 14, 1)
+# y = [0., 1 ,2 ,3, 1, 4, 9, 18, 23, 31, 20, 25, 37, 45]
+# (estimate, loglikelihood) = regress(X, y, "Poisson") # Aids problem
+# estimate = [0.0; estimate]
+# println(estimate)
+# X = [ones(size(X,1)) X]
+# test = glm_score_test(X, y, estimate, "Poisson")
+# println("score test = ",test)
+# (estimate, loglikelihood) = regress(X, y, "Poisson") # Aids problem
+# println(" ")
+# println(estimate," ",loglikelihood) 

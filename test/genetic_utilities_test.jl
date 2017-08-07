@@ -71,4 +71,19 @@ end
 
 @testset "xlinked_hardy_weinberg_test" begin
     # nothing yet.
+    males = trues(n)
+    for i in div(n, 2):n
+        males[i] = false # last half of population are females
+    end
+    x = fill(NaN, n)   
+    @test xlinked_hardy_weinberg_test(x, males) == 1.0
+    y = rand(n)
+    @test typeof(xlinked_hardy_weinberg_test(y, males)) == Float64
+
+    for i in 1:100 x[i] = 0.0 end
+    for i in 101:600 x[i] = 1.0 end
+    for i in 601:1000 x[i] = 2.0 end
+    result = xlinked_hardy_weinberg_test(x, males)
+    ans = ccdf(Chisq(2), 31.139)
+    # @test ans ≈ result
 end
