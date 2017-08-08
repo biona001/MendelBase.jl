@@ -70,20 +70,45 @@ end
 end
 
 @testset "xlinked_hardy_weinberg_test" begin
-    # nothing yet.
+    # problem 4.9.2 in Ken Lange's statistical genetics book
+    # 
+    # Frequency of t is (2 * 63 + 55 + 74) / (2 * 130 + 112) ≈ 0.6855
+    # Frequency of y is thus 1 - 0.6855 ≈ 0.3145
+    # so expected female tt, for example, is 0.6855^2 * 130
+    # and expected female ty = 2 * 0.6855 * 0.3145 * 130
+    #
+    #                Observed   expected       (obs - exp)      (obs - exp)^2 / exp
+    #           tt      63       61.0855        1.9145          0.0600
+    #females    ty      55       56.0533        1.0533          0.01979 
+    #           yy      12       12.8583        0.8583          0.05729
+    #
+    #males      t       74       76.776         2.776           0.1004
+    #           y       38       35.224         2.776           0.2188 
+    #
+    # so the sum of last column ~ chi square distribution with 2 degress of freedom.
+
+    x = fill(NaN, n)
     males = trues(n)
-    for i in div(n, 2):n
-        males[i] = false # last half of population are females
-    end
-    x = fill(NaN, n)   
     @test xlinked_hardy_weinberg_test(x, males) == 1.0
     y = rand(n)
     @test typeof(xlinked_hardy_weinberg_test(y, males)) == Float64
 
-    for i in 1:100 x[i] = 0.0 end
-    for i in 101:600 x[i] = 1.0 end
-    for i in 601:1000 x[i] = 2.0 end
+    x = zeros(242)
+    males = trues(242)
+    for i in 1:130 males[i] = false end # first 130 person are females
+
+    counter = 1
+    for i in 1:63 x[counter] = 0.0; counter += 1 end
+    for i in 1:55 x[counter] = 1.0; counter += 1 end
+    for i in 1:12 x[counter] = 2.0; counter += 1 end
+    for i in 1:74 x[counter] = 0.0; counter += 1 end
+    for i in 1:38 x[counter] = 2.0; counter += 1 end
     result = xlinked_hardy_weinberg_test(x, males)
-    ans = ccdf(Chisq(2), 31.139)
-    # @test ans ≈ result
+    ans = ccdf(Chisq(2), 0.4568) # see above how to obtain 0.4568
+    @test floor(result * 10e1) == floor(ans * 10e1) #manual calculation only agrees to 2 decimal places
 end
+
+
+
+
+

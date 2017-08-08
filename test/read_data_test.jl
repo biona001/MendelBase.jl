@@ -227,7 +227,9 @@ end
                 condition = false # if founders has parent, then condition not met
             end 
         end
+
         num_of_non_founder = individual_count[i] - founder_count
+        
         for j in 1:num_of_non_founder
             child_row = ped_start_row + founder_count + j - 1
             mother_row = data[child_row, 1]

@@ -159,7 +159,7 @@ function sample_stats(x::Vector{Float64})
   y = copy(x)
   (p, n) = (0, length(x))
   for i = 1:n
-    if !isnan(x[i])
+    if !isnan(x[i]) && !isna(x[i])
       p = p + 1
       y[p] = x[i]
     end
@@ -177,6 +177,9 @@ Prints the sample statistics output by the function sample_stats.
 """
 function print_sample_stats(s, io::IO = STDOUT)
 
+  # if input = data frame, then do what?
+  # if input = vector of numbers, then print the following
+  # if input = vector of non-numbers, then print quantity?
   println(io, "Summary Stats:")
   println(io, "Values Present:     ", s[1])
   println(io, "Values Absent:      ", s[2])

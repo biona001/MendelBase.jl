@@ -52,7 +52,7 @@ end
 
 @testset "normalize!" begin
     x = [1.0, 2.0, 3.0] #note the importance of comma
-    MendelBase.normalize!(x) # must have MendelBase.normalize! because Base package also have a normalize! function
+    MendelBase.normalize!(x) # must use MendelBase.normalize! because Base package also have a normalize! function
     @test mean(x) ≈ 0.0
     @test var(x) * 2.0 / 3.0 ≈ 1.0 # var(x) returns sample variance, we compute population variance
 
